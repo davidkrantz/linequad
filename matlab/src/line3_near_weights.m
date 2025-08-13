@@ -1,4 +1,4 @@
-function [w1, w3, w5, specquad_needed] = line3_near_weights(tj, wj, xj, yj, zj, X, Y, Z, varargin)
+function [w1, w3, w5, specquad_needed, all_roots] = line3_near_weights(tj, wj, xj, yj, zj, X, Y, Z, varargin)
 %
 % [w1, w3, w5, specquad_needed] = line3_near_weights(tj, wj, xj, yj, zj, X, Y, Z, [rho])
 %
@@ -20,7 +20,7 @@ function [w1, w3, w5, specquad_needed] = line3_near_weights(tj, wj, xj, yj, zj, 
 % specquad_needed: List of bool values indicating if special quadrature weights
 %                  were computed
 
-USE_MEX_CODE = true; % Switch off to debug codes
+USE_MEX_CODE = false; % Switch off to debug codes
 CHECK_SCHWARZ = false; % Additional checks if nearby Schwarz point
                        % (experimental)
 

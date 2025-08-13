@@ -5,7 +5,7 @@ function [troot, converged] = rootfinder(xhat, yhat, zhat, x0, y0, z0, tinit)
     
     t = tinit;
     n = numel(xhat);
-    tol = 1e-14;
+    tol = 1e-12;
     maxiter_newton = 20;
     maxiter_muller = 20;    
     % === Newton

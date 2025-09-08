@@ -1,4 +1,4 @@
-function [tj, wj, npan] = adaptive_panelization(s, nquad, tol)
+function [tj, wj, npan, edges] = adaptive_panelization(s, nquad, tol)
     [tgl, wgl] = legendre.gauss(nquad); 
     tgl = (tgl+1)/2; wgl = wgl/2; % [0,1]
     L = legendre.matrix(nquad);

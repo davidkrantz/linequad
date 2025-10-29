@@ -32,7 +32,7 @@ parfor i=1:numel(Z)
     z = Z(i);
     kmax = max(klist)+1;
     if shifted
-        [p1,p3,p5] = rsqrt_pow_integrals_shift(z, kmax);           
+        [p1,p3,p5] = rsqrt_pow_integrals_shift_old(z, kmax);           
     else
         [p1,p3,p5] = rsqrt_pow_integrals(z, kmax);           
     end
@@ -43,7 +43,7 @@ parfor i=1:numel(Z)
         I5(j,i) = p5(k+1);
         if vpa_reference && abs(real(z)) <= 1 && zoom
             % VPA ref is better above [-1,1]
-            [p1,p3,p5] = rsqrt_pow_integrals_noshift(vpa(z), kmax);
+            [p1,p3,p5] = rsqrt_pow_integrals(vpa(z), kmax);
             I1ref(j,i) = p1(k+1);
             I3ref(j,i) = p3(k+1);
             I5ref(j,i) = p5(k+1);

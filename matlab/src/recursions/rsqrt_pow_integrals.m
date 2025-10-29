@@ -8,19 +8,17 @@ function [I1, I3, I5] = rsqrt_pow_integrals(z,N)
 % Journal of Computational Physics 215 (2006) 172–196
 %
 % Ludvig af Klinteberg, May 2018
+%
+% David Krantz, Oct 2025: New simple and stable expression for I1(1)
+% suggested by Ludvig
 
 % Test switch to disable power series eval
 NO_POWER_SERIES = false;
 
-% Test switch to disable half plane switch for I1(1)
-NO_HP_SWITCH = false;
-
 % Disable all tricks if called with VPA argument
 if isa(z, 'sym')
     NO_POWER_SERIES = true;
-    NO_HP_SWITCH = true;
 end
-
 
 zr = real(z);
 zi = imag(z);
@@ -35,30 +33,9 @@ d = zi^2; % d = c - b^2/4;
 u1 = sqrt((1+zr)^2 + zi^2);
 u2 = sqrt((1-zr)^2 + zi^2);
 
-
 % Compute I1
 I1 = zeros(N,1);
-if NO_HP_SWITCH
-    % Vanilla expression
-    I1(1) = log(1-zr+u2)-log(-1-zr+u1);    
-else    
-    % Evaluate after substitution zr -> -|zr|
-    arg2 = 1+abs(zr) + sqrt((1+abs(zr))^2 + zi^2);          
-    in_rhomb = 4*abs(zi) < 1-abs(zr);    
-    if ~in_rhomb || NO_POWER_SERIES
-        arg1 = -1+abs(zr) + sqrt((-1+abs(zr))^2 + zi^2);        
-    else
-        % Series evaluation needed inside 
-        % rhombus [-1, i/4, 1, -i/4, -1].
-        % Here arg1 has cancellation due to structure
-        % -x + sqrt(x^2+b^2)
-        Ns = 11;
-        coeffs = coeffs_I1(Ns);
-        arg1 = (1-abs(zr))*eval_series(coeffs, 1-abs(zr), zi, Ns);    
-    end   
-    I1(1) = log(arg2)-log(arg1);
-end
-
+I1(1) = asinh((1-zr)/abs(zi)) + asinh((1+zr)/abs(zi));
 
 if N>1
     I1(2) = u2-u1 - b/2*I1(1);    
@@ -147,7 +124,6 @@ if N>1
     % This is analogous to the formula for I3(1), but was overlooked by Tornberg & Gustavsson
     I5(2) = 1/(3*u1^3) - 1/(3*u2^3)  - b/2*I5(1);
 end
-
 
 if N==1
     I5 = I5(1);

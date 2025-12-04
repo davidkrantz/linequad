@@ -14,7 +14,7 @@ To initialize the required submodules, run `git submodule update --init --recurs
 
 In the `matlab` directory, open Matlab and run:
 ```Matlab
-make % To build the MEX code (gcc required)
+make % To build the MEX code (gcc or clang required)
 
 init % To setup the paths for running things (must be done every session)
 ```
